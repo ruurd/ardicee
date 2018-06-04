@@ -18,18 +18,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         super.viewDidLoad()
         
         sceneView.delegate = self
-
-        let sphere = SCNSphere(radius: 0.2)
-        let material = SCNMaterial()
-        material.diffuse.contents = UIImage(named: "art.scnassets/8k_moon.jpg")
-        sphere.materials = [material]
-
-        let node = SCNNode()
-        node.position = SCNVector3(x: 0, y: 0.1, z: -0.5)
-        node.geometry = sphere
-
         sceneView.autoenablesDefaultLighting = true
-        sceneView.scene.rootNode.addChildNode(node)
+
+        let scene = SCNScene(named: "art.scnassets/diceCollada.scn")
+        if let node = scene?.rootNode.childNode(withName: "Dice", recursively: true) {
+            node.position = SCNVector3(x: 0, y: 0, z: -0.1)
+            sceneView.scene.rootNode.addChildNode(node)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
